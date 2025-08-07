@@ -11,3 +11,4 @@ Projeto de estudos com foco em:
 Integração entre Redis e RabbitMQ
 Execução local com Docker Compose
 Ambiente isolado para testes e experimentações
+
