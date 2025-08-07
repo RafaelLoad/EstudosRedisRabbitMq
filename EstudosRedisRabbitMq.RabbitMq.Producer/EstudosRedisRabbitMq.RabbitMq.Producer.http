@@ -1,0 +1,6 @@
+@EstudosRedisRabbitMq.RabbitMq.Producer_HostAddress = http://localhost:5175
+
+GET {{EstudosRedisRabbitMq.RabbitMq.Producer_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
