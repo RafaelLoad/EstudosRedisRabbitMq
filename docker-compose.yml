@@ -1,0 +1,48 @@
+services:
+  rabbitmq:
+    image: rabbitmq:4-management
+    container_name: rabbitmq-tls
+    hostname: rabbitmq
+    ports:
+      - "5672:5672" 
+      - "5671:5671"   
+      - "15672:15672" 
+      - "15671:15671" 
+    volumes:
+      - ./certs:/etc/rabbitmq/certs:ro
+      - ./config/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - rabbitmq_data:/var/lib/rabbitmq/mnesia
+      - rabbitmq_logs:/var/log/rabbitmq           
+      - rabbitmq_home:/var/lib/rabbitmq            
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    networks:
+      - rabbitmq_net
+    restart: unless-stopped
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    command: ["redis-server", "--requirepass", "guest"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - rabbitmq_net
+    restart: unless-stopped
+
+
+volumes:
+  rabbitmq_data:
+    driver: local
+  rabbitmq_logs:
+    driver: local
+  rabbitmq_home:
+    driver: local
+  redis_data:
+    driver: local
+networks:
+  rabbitmq_net:
+    driver: bridge
